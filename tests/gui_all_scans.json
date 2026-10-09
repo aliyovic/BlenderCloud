@@ -1,0 +1,7 @@
+{
+  "scan_objects": 15,
+  "gpu_batches": 15,
+  "handler_registered": true,
+  "point_budget": 2000000,
+  "screenshot": "/Users/ali/Desktop/dataset_PointCloud/scan_viewer/tests/gui_all_scans.png"
+}
