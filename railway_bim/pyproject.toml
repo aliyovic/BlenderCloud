@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "railway-bim"
+version = "0.1.2"
+description = "Editable railway IFC models from fitted scan observations"
+requires-python = ">=3.11"
+dependencies = ["ifcopenshell>=0.8.5,<0.9", "numpy>=1.26"]
+license = "GPL-3.0-or-later"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+railway_bim = ["pilot_contract.json"]

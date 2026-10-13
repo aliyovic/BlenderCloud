@@ -1,68 +1,51 @@
-# Scan Viewer
+# Railway scan to BIM
 
-Scan Viewer 0.4 is a Blender add-on with a Rust point-cloud reader. It draws large scans beside Blender and Bonsai geometry, streams detail as you navigate, and creates modeling crops that survive in the saved .blend file.
+This repository contains three Blender extensions. Scan Viewer processes and displays point clouds, Swiss GIS Local aligns local Swiss survey and raster data, and Railway BIM authors editable IFC 4.3 assets in Bonsai.
 
-[Download the macOS Apple Silicon extension](dist/scan_viewer-0.4.0-macos-arm64.zip). It was built for Blender 5.1.1 and tested on an Apple M5. If your development installation points to the source directory, restart Blender to load changed Python code.
+The plugin folders and IDs remain stable. The first [railway IFC](railway_bim/output/railway_crop.ifc) and [Bonsai workspace](railway_bim/output/railway_crop.blend) remain at their original local paths. These generated files are excluded from Git. The workspace retains the complete 5,500,234-point crop.
 
-## Use it
+| Plugin | Processing code | Blender entry point |
+|---|---|---|
+| [Scan Viewer](scan_viewer/README.md) | Rust library in `scan_viewer/src` | `scan_viewer/addon` |
+| [Swiss GIS Local](swiss_gis/README.md) | Python package in `swiss_gis/src/swiss_gis` | `swiss_gis/addon` |
+| [Railway BIM](railway_bim/README.md) | Python package in `railway_bim/src/railway_bim` | `railway_bim/addon` |
 
-1. In the 3D View, press N and open the **Scan** tab. Choose **Import scan folder**.
-2. For COPC files, zoom to stream detail. For LAS, LAZ, E57, PLY, or text scans, select the scan and choose **Build full detail cache**. This creates a local octree once; later visits read its nodes through memory mapping.
-3. Use **Class (-1 = all)** to show one classification, or choose RGB, intensity, or class colors. The shader changes color without uploading points again. The first COPC class selection builds a small per-node class index in the overview cache.
-4. Choose **Add modeling box** and place it around your work area. The box immediately clips the scan and focuses the detail plan. Choose **Load full detail in box** to make a source crop. The crop can cross COPC tile boundaries when the neighboring scans are in the scene. The default limit is one million points.
-5. Use **Pick scan point** to place and orient the 3D cursor from a source point and a local fitted plane. For mesh vertex snapping, select a crop and choose **Create modeling snap sample**.
+Shared wire and project contracts live in [contracts](contracts/). The [architecture notes](docs/architecture.md) explain memory limits, source evidence, package boundaries, and migration. Existing dataset descriptions and attribution are in [the dataset index](docs/datasets.md).
 
-A crop stores its points, colors, intensity, classes, and source IDs as mesh attributes inside the .blend file. The source scan and box are hidden after the crop; unhide them in the Outliner to keep browsing. COPC IDs identify a source tile, node, and point within that node. Native octree IDs identify a cached node and point. The original source files remain necessary for new crops and source picking. Missing overview caches are rebuilt from their source files.
+The [skill alignment audit](docs/skill-alignment.md) records the installed review skills, repairs and verification results.
 
-[The building crop example](examples/copc_modeling_crop.blend) contains 8,357 points and a snap mesh. [The all-scans scene](examples/all_desktop_scans.blend) contains the 15 Desktop scans. These example scenes refer to source paths on this Mac.
+The [automated review follow-up](docs/automated-review.md) records the CLI repair and fixes for project UUIDs, alignment identity and measured-path validation.
 
-## Measured here
+Install the portable development dependencies in an isolated Python 3.12 environment, then run the same checks as CI:
 
-The 13 SwissSurface3D COPC tiles contain 683,993,847 points. The Desktop LAS and XYZ bring the total to 698,431,174 points. The separate CRAS terrestrial ZIP contains 584,701,977 points.
+```sh
+python3 -m venv .venv
+.venv/bin/python -m pip install --no-deps --require-hashes -r requirements-dev.lock
+.venv/bin/python -m pip check
+.venv/bin/python scripts/check.py
+```
 
-| Task | Result |
-| --- | ---: |
-| Building view refinement, 26 COPC nodes through level 5 | 0.64 s |
-| Camera motion, median / 95th percentile frame interval | 8.83 / 10.68 ms |
-| 14 stress visits through the COPC tiles, median / maximum | 0.81 / 0.90 s |
-| Cross-tile crop checked against laspy | 46,537 matching points |
-| 8,357-point modeling crop in Blender | 0.22 s |
-| Full CRAS native octree, overview / nearby view | 3.16 / 0.98 s |
+Rust uses `rust-toolchain.toml` and the committed Cargo lockfile. Install Rust through rustup if the configured toolchain is unavailable. The portable suite exercises real worker processes, generated GIS inputs, IFC export and persisted edits, and extension package imports. It does not require our local scans or Blender.
 
-The CRAS octree occupies 9.8 GiB in the scan viewer cache and streams at the two million point budget. It was built directly from the ZIP without unpacking the 26.7 GiB text scan. A full CRAS COPC conversion was not run because the volume had about 9 GiB free after the octree build. [Performance details](PERFORMANCE.md) include the Metal offscreen measurements and test limits.
+Build the three supported macOS arm64 release ZIPs with:
 
-## How it works
+```sh
+for plugin in scan_viewer swiss_gis railway_bim
+do
+  .venv/bin/python scripts/build_plugin.py "$plugin" --blender /Applications/Blender.app/Contents/MacOS/Blender
+done
+```
 
-The COPC reader loads whole shuffled nodes, including points previously lost to a 65,536-point cap. The planner chooses draw prefixes under the point and GPU memory budgets and accounts for the resulting spacing. For LAS point formats 6 through 8, the worker decompresses only the layers needed for drawing. Six persistent decode workers take the next queued node as soon as one finishes. Late results stay in the CPU cache for a return visit.
+Install the ZIPs through Blender's extension preferences. Railway BIM uses the IfcOpenShell provided by Bonsai; Swiss GIS bundles its separately locked CPython 3.13 wheels. The release builder stages each archive in a clean temporary directory.
 
-The custom shader draws round points, applies class and intensity controls, and clips against the modeling box and Blender's viewport clip planes. New detail fades in over 150 ms. The root overview sample stops drawing once its streamed node is ready. Uploads are limited by a four millisecond scheduling target rather than a fixed node count. GPU buffers use 24 bytes per point; CPU payloads use 18 bytes per point.
+Run installed-extension integration checks in background Blender:
 
-The default budget remains two million points. In a 1920 × 1080 Metal offscreen loop with two-pixel points, one million points took 9.80 ms median and two million took 20.95 ms. The add-on reduces density during motion when measured draw intervals miss the display cadence. The offscreen result is a separate workload from the Blender viewport.
+```sh
+.venv/bin/python scripts/check.py --suite blender --blender /Applications/Blender.app/Contents/MacOS/Blender
+```
 
-Caches live in ~/Library/Caches/scan_viewer on macOS, %LOCALAPPDATA%/scan_viewer on Windows, and $XDG_CACHE_HOME/scan_viewer or ~/.cache/scan_viewer on Linux. Streaming serves the largest 3D viewport; other viewports show the overview. Native octree coordinates are stored as 32-bit offsets from a 64-bit origin, so native picking reflects cache precision. COPC picking reads the original source coordinates.
+These checks need Blender with all three extensions and Bonsai enabled, plus the local pilot IFC. GitHub runs the portable suite on pushes and pull requests. The Blender workflow runs only when dispatched on a configured self-hosted runner.
 
-Supported imports: ASCII and binary PLY, LAS, LAZ, E57, XYZ, PTS, ASC, TXT, CSV, and a ZIP containing one text scan. Text input accepts XYZ followed by optional RGB, intensity, and classification. Automatic BIM reconstruction and scan registration are outside this add-on.
+Finish installation before starting the suite. Run checks serially against one Blender user profile; extension startup and registration can change its shared Python dependencies. The shared check command already runs Blender processes in sequence.
 
-## Build and verify
-
-Clone the repository and build the macOS Apple Silicon extension with Rust and Blender installed:
-
-    git clone https://github.com/aliyovic/BlenderCloud.git
-    cd BlenderCloud
-    sh scripts/build_extension.sh
-
-The script expects Blender at `/Applications/Blender.app/Contents/MacOS/Blender` and writes the extension ZIP to `dist/`.
-
-The integration tests below use source scans and caches from the development Mac. Those datasets and caches are not included in this repository. Some tests use absolute paths under `/Users/ali/Desktop/pointclouds`; CRAS and synthetic fixtures live beside the repository in `CRAS_Lab/` and `Synthetic_Building/`. Update those paths and provide the fixtures before running the tests on another machine. The JSON results and linked screenshots record the runs described in [PERFORMANCE.md](PERFORMANCE.md).
-
-    cargo build --release
-    python3 tests/streaming_data.py
-    /Applications/Blender.app/Contents/MacOS/Blender examples/all_desktop_scans.blend --python tests/gui_streaming.py
-    /Applications/Blender.app/Contents/MacOS/Blender examples/all_desktop_scans.blend --python tests/gui_stream_stress.py
-    /Applications/Blender.app/Contents/MacOS/Blender examples/all_desktop_scans.blend --python tests/gui_class_filter.py
-    /Applications/Blender.app/Contents/MacOS/Blender --factory-startup --python tests/gui_clip_probe.py
-    /Applications/Blender.app/Contents/MacOS/Blender --factory-startup --python tests/gui_cras_full.py
-    sh scripts/build_extension.sh
-    /Applications/Blender.app/Contents/MacOS/Blender -b --factory-startup --python tests/package_smoke.py
-
-The source-data check uses Python with numpy, laspy, and lazrs. The package script builds macOS Apple Silicon. For another platform, build Rust there and update the extension manifest before packaging.
+The original Scan Viewer Git history is retained in this repository. Local metadata backups for the former repositories are stored in `.repository-history/`. Scans, caches, local backups, generated models, and audit artifacts stay outside source history.

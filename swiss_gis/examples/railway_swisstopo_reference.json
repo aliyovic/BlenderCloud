@@ -1,0 +1,97 @@
+{
+  "epsg": 2056,
+  "origin": [
+    2689160.0,
+    1254972.0,
+    452.0
+  ],
+  "vertical_datum": "UNKNOWN",
+  "vertical_datum_declared": false,
+  "crs_assumed": true,
+  "units": "metres",
+  "axes": "X east, Y north, Z up",
+  "coordinate_rule": "LV95 XYZ = Blender XYZ + origin",
+  "source": "/Users/ali/Desktop/dataset_PointCloud/infrastructure/BRUT_LV95_000017_000018-Cloud_Cropped_agent.laz",
+  "area": [
+    2689076.323,
+    1254895.946,
+    2689244.336,
+    1255047.115
+  ],
+  "warnings": [
+    "The LAS header has no CRS. EPSG:2056 is an explicit project assumption.",
+    "The scan vertical datum is unknown. Heights retain the source values.",
+    "Height alignment is unverified for swissalti3d_2026_2689-1254_2_2056_5728_railway_crop.tif; one or both vertical datums are unknown.",
+    "Height alignment is unverified for swissalti3d_2026_2689-1255_2_2056_5728_railway_crop.tif; one or both vertical datums are unknown."
+  ],
+  "context_sources": [
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_area/terrain/swissalti3d_2026_2689-1254_2_2056_5728_railway_crop.tif",
+      "vertical_datum": "LN02",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2026_2689-1254/swissalti3d_2026_2689-1254_2_2056_5728.tif",
+      "source_asset_year": "2026",
+      "window": [
+        0.0,
+        0.0,
+        85.0,
+        53.0
+      ],
+      "read_shape": [
+        53,
+        85
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_area/terrain/swissalti3d_2026_2689-1255_2_2056_5728_railway_crop.tif",
+      "vertical_datum": "LN02",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2026_2689-1255/swissalti3d_2026_2689-1255_2_2056_5728.tif",
+      "source_asset_year": "2026",
+      "window": [
+        0.0,
+        0.0,
+        85.0,
+        24.0
+      ],
+      "read_shape": [
+        24,
+        85
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_area/imagery/swissimage-dop10_2025_2689-1254_0.1_2056_railway_crop.tif",
+      "vertical_datum": "UNKNOWN",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissimage-dop10/swissimage-dop10_2025_2689-1254/swissimage-dop10_2025_2689-1254_0.1_2056.tif",
+      "source_asset_year": "2025",
+      "window": [
+        0.0,
+        0.0,
+        1681.0,
+        1041.0
+      ],
+      "read_shape": [
+        1041,
+        1682
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_area/imagery/swissimage-dop10_2025_2689-1255_0.1_2056_railway_crop.tif",
+      "vertical_datum": "UNKNOWN",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissimage-dop10/swissimage-dop10_2025_2689-1255/swissimage-dop10_2025_2689-1255_0.1_2056.tif",
+      "source_asset_year": "2025",
+      "window": [
+        0.0,
+        0.0,
+        1681.0,
+        472.0
+      ],
+      "read_shape": [
+        472,
+        1682
+      ]
+    }
+  ]
+}

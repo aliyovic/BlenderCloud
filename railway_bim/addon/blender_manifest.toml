@@ -1,0 +1,13 @@
+schema_version = "1.0.0"
+id = "railway_bim"
+version = "0.1.2"
+name = "Railway BIM"
+tagline = "Build and edit railway IFC models from fitted scans"
+maintainer = "Ali Aouada"
+type = "add-on"
+blender_version_min = "5.1.0"
+license = ["SPDX:GPL-3.0-or-later"]
+platforms = ["macos-arm64"]
+
+[permissions]
+files = "Read fitted railway crops and write IFC models and evidence"

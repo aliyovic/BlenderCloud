@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.blend1
+dist/
+examples/*.blend
+addon/wheels/
+data/*
+!data/README.md
+artifacts/*

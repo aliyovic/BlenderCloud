@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Railway project contract, version one",
+  "type": "object",
+  "required": ["schema", "project_id", "units", "reference", "tracks"],
+  "properties": {
+    "schema": {"const": "railway-project-contract/1"},
+    "project_id": {"type": "string", "format": "uuid"},
+    "name": {"type": "string"},
+    "units": {"const": "metre"},
+    "reference": {
+      "type": "object",
+      "required": ["local_origin_m", "horizontal", "vertical"],
+      "properties": {
+        "local_origin_m": {"type": "array", "items": {"type": "number"}, "minItems": 3, "maxItems": 3},
+        "max_local_extent_m": {"type": "number", "exclusiveMinimum": 0},
+        "horizontal": {
+          "allOf": [{"$ref": "#/$defs/fact"}],
+          "properties": {
+            "crs": {"type": "string"}, "geodetic_datum": {"type": "string"},
+            "map_projection": {"type": "string"}, "description": {"type": "string"}
+          }
+        },
+        "vertical": {"allOf": [{"$ref": "#/$defs/fact"}], "properties": {"datum": {"type": "string"}}},
+        "official_chainage": {"$ref": "#/$defs/fact"},
+        "design_alignment": {"$ref": "#/$defs/fact"},
+        "gauge": {"$ref": "#/$defs/fact"}
+      }
+    },
+    "tracks": {
+      "type": "array",
+      "items": {
+        "type": "object", "required": ["id", "rail_ids"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1}, "name": {"type": "string"},
+          "alignment_asset_id": {"type": "string"},
+          "rail_ids": {"type": "array", "items": {"type": "string"}, "minItems": 2, "maxItems": 2, "uniqueItems": true}
+        }
+      }
+    },
+    "terrain_regions": {
+      "type": "array",
+      "items": {
+        "type": "object", "required": ["id", "selector"],
+        "properties": {
+          "id": {"type": "string", "minLength": 1}, "object_type": {"type": "string"},
+          "selector": {
+            "type": "object", "required": ["kind"],
+            "properties": {"kind": {"enum": ["lateral_range", "between_paths", "above_path", "remainder"]}}
+          }
+        }
+      }
+    },
+    "sampling": {
+      "type": "object",
+      "properties": {
+        "rail_sample_count": {"type": "integer", "minimum": 2, "maximum": 100000},
+        "alignment_sample_count": {"type": "integer", "minimum": 2, "maximum": 100000}
+      }
+    }
+  },
+  "$defs": {
+    "fact": {
+      "type": "object", "required": ["status"],
+      "properties": {
+        "status": {"enum": ["UNKNOWN", "ASSUMED", "DECLARED", "VERIFIED"]},
+        "evidence": {"type": "string"}
+      },
+      "allOf": [{
+        "if": {"properties": {"status": {"enum": ["DECLARED", "VERIFIED"]}}},
+        "then": {"required": ["evidence"], "properties": {"evidence": {"minLength": 1}}}
+      }]
+    }
+  }
+}

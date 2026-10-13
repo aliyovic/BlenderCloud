@@ -1,0 +1,13 @@
+schema_version = "1.0.0"
+id = "scan_viewer"
+version = "0.4.4"
+name = "Scan Viewer"
+tagline = "Open large point clouds in the Blender viewport"
+maintainer = "Scan Viewer contributors"
+type = "add-on"
+blender_version_min = "4.3.0"
+license = ["SPDX:MIT"]
+platforms = ["macos-arm64"]
+
+[permissions]
+files = "Read point clouds and write cache files"

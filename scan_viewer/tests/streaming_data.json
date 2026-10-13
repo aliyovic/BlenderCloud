@@ -1,0 +1,37 @@
+{
+  "source": "/Users/ali/Desktop/pointclouds/ZH/swisssurface3d_2024_2670-1253_2056_5728.copc.laz",
+  "center": [
+    2670497.9899902344,
+    1253493.839996338,
+    406.1499938964844
+  ],
+  "bounds": [
+    [
+      2670487.9899902344,
+      1253483.839996338,
+      391.1499938964844
+    ],
+    [
+      2670507.9899902344,
+      1253503.839996338,
+      421.1499938964844
+    ]
+  ],
+  "far_nodes": 21,
+  "near_nodes": 23,
+  "far_level": 2,
+  "near_level": 5,
+  "plan_ms": 0.14008400000000001,
+  "crop_points": 8361,
+  "crop_seconds": 0.2419529579929076,
+  "independent_laspy_match": true,
+  "unique_source_ids": true,
+  "rotated_crop_points": 2856,
+  "rotated_crop_match": true,
+  "selective_decode_match": true,
+  "cross_tile_points": 46537,
+  "cross_tile_match": true,
+  "pick_plane_points": 7,
+  "class_filter_points": 4931,
+  "class_filter_match": true
+}

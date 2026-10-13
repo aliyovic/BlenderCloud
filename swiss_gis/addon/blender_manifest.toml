@@ -1,0 +1,13 @@
+schema_version = "1.0.0"
+id = "swiss_gis_local"
+version = "0.1.3"
+name = "Swiss GIS Local"
+tagline = "Align local LV95 scans, terrain and aerial imagery"
+maintainer = "Ali Aouada"
+type = "add-on"
+blender_version_min = "5.1.0"
+license = ["SPDX:GPL-3.0-or-later"]
+platforms = ["macos-arm64"]
+
+[permissions]
+files = "Read local scans and rasters, write local project bundles"

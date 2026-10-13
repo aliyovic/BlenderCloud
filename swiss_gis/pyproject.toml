@@ -1,0 +1,14 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swiss-gis-local"
+version = "0.1.3"
+description = "Prepare bounded LV95 scan and raster bundles for Blender"
+requires-python = ">=3.11"
+dependencies = ["numpy>=1.26", "laspy[lazrs]==2.7.0", "pyproj==3.8.0", "rasterio==1.5.2"]
+license = "GPL-3.0-or-later"
+
+[tool.setuptools.packages.find]
+where = ["src"]

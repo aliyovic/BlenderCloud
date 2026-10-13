@@ -1,0 +1,58 @@
+name: Blender pilot integration
+
+on:
+  workflow_dispatch:
+    inputs:
+      blender:
+        description: Blender 5.1 executable on the configured runner
+        required: true
+        type: string
+      pilot_ifc:
+        description: Pilot IFC and sidecars on the configured runner
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blender-pilot-integration
+  cancel-in-progress: false
+
+jobs:
+  installed_extensions:
+    # The runner must have Blender, Bonsai, rustup, and local pilot data.
+    # This job does not run on GitHub-hosted machines or pull request events.
+    runs-on: [self-hosted, macOS, ARM64, railway-bim]
+    timeout-minutes: 20
+    env:
+      BLENDER_BIN: ${{ inputs.blender }}
+      RAILWAY_PILOT_IFC: ${{ inputs.pilot_ifc }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7
+        with:
+          python-version: '3.12'
+      - name: Install pinned Rust components and release target
+        run: |
+          rustup toolchain install 1.98.0 --profile minimal --component clippy --component rustfmt --target aarch64-apple-darwin
+          rust_binary="$(rustup which --toolchain 1.98.0 cargo)"
+          dirname "$rust_binary" >> "$GITHUB_PATH"
+      - name: Create the locked build environment
+        run: |
+          environment="$RUNNER_TEMP/railway-ci-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python -m venv "$environment"
+          "$environment/bin/python" -m pip install --no-deps --require-hashes -r requirements-dev.lock
+          "$environment/bin/python" -m pip check
+          echo "RAILWAY_CI_PYTHON=$environment/bin/python" >> "$GITHUB_ENV"
+      - name: Build and validate the current extension archives
+        run: |
+          for plugin in scan_viewer swiss_gis railway_bim; do
+            "$RAILWAY_CI_PYTHON" scripts/build_plugin.py "$plugin" --blender "$BLENDER_BIN"
+          done
+      - name: Install the current extensions in the dedicated runner
+        run: '"$BLENDER_BIN" --background --python-exit-code 1 --python scripts/install_plugins.py'
+      - name: Run real installed extension checks
+        run: '"$RAILWAY_CI_PYTHON" scripts/check.py --suite blender --blender "$BLENDER_BIN" --pilot-ifc "$RAILWAY_PILOT_IFC"'

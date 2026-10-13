@@ -1,0 +1,55 @@
+{
+  "schema": "railway-project-contract/1",
+  "project_id": "d7418a75-79af-4b11-81d1-024c44edbe47",
+  "name": "Swiss railway crop as-built pilot",
+  "units": "metre",
+  "tracks": [
+    {
+      "id": "1",
+      "name": "Track 1",
+      "rail_ids": [
+        "Rail 01",
+        "Rail 02"
+      ]
+    },
+    {
+      "id": "2",
+      "name": "Track 2",
+      "rail_ids": [
+        "Rail 03",
+        "Rail 04"
+      ]
+    }
+  ],
+  "terrain_regions": [
+    {
+      "id": "Ballast and formation",
+      "selector": {
+        "kind": "between_paths",
+        "path_ids": [
+          "Cable trough 01",
+          "Cable trough 02"
+        ],
+        "margin_m": 0.4
+      },
+      "object_type": "FITTED_BALLAST_FORMATION_SURFACE"
+    },
+    {
+      "id": "North embankment",
+      "selector": {
+        "kind": "above_path",
+        "path_id": "Cable trough 02"
+      }
+    },
+    {
+      "id": "South embankment",
+      "selector": {
+        "kind": "remainder"
+      }
+    }
+  ],
+  "sampling": {
+    "rail_sample_count": 280,
+    "alignment_sample_count": 280
+  }
+}

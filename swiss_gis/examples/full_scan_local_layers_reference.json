@@ -1,0 +1,167 @@
+{
+  "epsg": 2056,
+  "origin": [
+    2689000.0,
+    1254000.0,
+    0.0
+  ],
+  "vertical_datum": "UNKNOWN",
+  "vertical_datum_declared": false,
+  "crs_assumed": true,
+  "units": "metres",
+  "axes": "X east, Y north, Z up",
+  "coordinate_rule": "LV95 XYZ = Blender XYZ + origin",
+  "source": "/Users/ali/Library/CloudStorage/OneDrive-Personal/BIM/Revit _Dynamo/Dynamo/Scripts/Scan to bim/Point cloud/BRUT_LV95_000017_000018-Cloud_Cropped.laz",
+  "area": [
+    2688974.50399971,
+    1254877.2219848633,
+    2689285.115005493,
+    1255110.0169677734
+  ],
+  "warnings": [
+    "The LAS header has no CRS. EPSG:2056 is an explicit project assumption.",
+    "The scan vertical datum is unknown. Heights retain the source values.",
+    "Height alignment is unverified for swissalti3d_2026_2688-1254_2_2056_5728_full_scan_crop.tif; one or both vertical datums are unknown.",
+    "Height alignment is unverified for swissalti3d_2026_2688-1255_2_2056_5728_full_scan_crop.tif; one or both vertical datums are unknown.",
+    "Height alignment is unverified for swissalti3d_2026_2689-1254_2_2056_5728_full_scan_crop.tif; one or both vertical datums are unknown.",
+    "Height alignment is unverified for swissalti3d_2026_2689-1255_2_2056_5728_full_scan_crop.tif; one or both vertical datums are unknown."
+  ],
+  "context_sources": [
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_full_scan/terrain/swissalti3d_2026_2688-1254_2_2056_5728_full_scan_crop.tif",
+      "vertical_datum": "LN02",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2026_2688-1254/swissalti3d_2026_2688-1254_2_2056_5728.tif",
+      "source_asset_year": "2026",
+      "window": [
+        0.0,
+        0.0,
+        13.0,
+        62.0
+      ],
+      "read_shape": [
+        62,
+        13
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_full_scan/terrain/swissalti3d_2026_2688-1255_2_2056_5728_full_scan_crop.tif",
+      "vertical_datum": "LN02",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2026_2688-1255/swissalti3d_2026_2688-1255_2_2056_5728.tif",
+      "source_asset_year": "2026",
+      "window": [
+        0.0,
+        0.0,
+        13.0,
+        56.0
+      ],
+      "read_shape": [
+        56,
+        13
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_full_scan/terrain/swissalti3d_2026_2689-1254_2_2056_5728_full_scan_crop.tif",
+      "vertical_datum": "LN02",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2026_2689-1254/swissalti3d_2026_2689-1254_2_2056_5728.tif",
+      "source_asset_year": "2026",
+      "window": [
+        0.0,
+        0.0,
+        143.0,
+        62.0
+      ],
+      "read_shape": [
+        62,
+        143
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_full_scan/terrain/swissalti3d_2026_2689-1255_2_2056_5728_full_scan_crop.tif",
+      "vertical_datum": "LN02",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissalti3d/swissalti3d_2026_2689-1255/swissalti3d_2026_2689-1255_2_2056_5728.tif",
+      "source_asset_year": "2026",
+      "window": [
+        0.0,
+        0.0,
+        143.0,
+        56.0
+      ],
+      "read_shape": [
+        56,
+        143
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_full_scan/imagery/swissimage-dop10_2025_2688-1254_0.1_2056_full_scan_crop.tif",
+      "vertical_datum": "UNKNOWN",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissimage-dop10/swissimage-dop10_2025_2688-1254/swissimage-dop10_2025_2688-1254_0.1_2056.tif",
+      "source_asset_year": "2025",
+      "window": [
+        0.0,
+        0.0,
+        255.0,
+        1228.0
+      ],
+      "read_shape": [
+        1228,
+        255
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_full_scan/imagery/swissimage-dop10_2025_2688-1255_0.1_2056_full_scan_crop.tif",
+      "vertical_datum": "UNKNOWN",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissimage-dop10/swissimage-dop10_2025_2688-1255/swissimage-dop10_2025_2688-1255_0.1_2056.tif",
+      "source_asset_year": "2025",
+      "window": [
+        0.0,
+        0.0,
+        255.0,
+        1101.0
+      ],
+      "read_shape": [
+        1101,
+        255
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_full_scan/imagery/swissimage-dop10_2025_2689-1254_0.1_2056_full_scan_crop.tif",
+      "vertical_datum": "UNKNOWN",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissimage-dop10/swissimage-dop10_2025_2689-1254/swissimage-dop10_2025_2689-1254_0.1_2056.tif",
+      "source_asset_year": "2025",
+      "window": [
+        0.0,
+        0.0,
+        2852.0,
+        1228.0
+      ],
+      "read_shape": [
+        1228,
+        2852
+      ]
+    },
+    {
+      "path": "/Users/ali/Desktop/dataset_PointCloud/swiss_gis/data/swisstopo_full_scan/imagery/swissimage-dop10_2025_2689-1255_0.1_2056_full_scan_crop.tif",
+      "vertical_datum": "UNKNOWN",
+      "source_reference": "Federal Office of Topography swisstopo",
+      "source_url": "https://data.geo.admin.ch/ch.swisstopo.swissimage-dop10/swissimage-dop10_2025_2689-1255/swissimage-dop10_2025_2689-1255_0.1_2056.tif",
+      "source_asset_year": "2025",
+      "window": [
+        0.0,
+        0.0,
+        2852.0,
+        1101.0
+      ],
+      "read_shape": [
+        1101,
+        2852
+      ]
+    }
+  ]
+}
